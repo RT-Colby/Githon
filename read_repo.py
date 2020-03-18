@@ -12,17 +12,16 @@ COMMITS_TO_PRINT = 5
 """
 
 
-def print_Commit(commit):
+def print_commit(commit):
 	print('----')
 	print(str(commit.hexsha))
 	print("\"{}\" by {} ({})".format(commit.summary,commit.author.name,commit.author.email))
 	print(str(commit.authored_datetime))
 	print(str("Count: {} and size: {}".format(commit.count(),commit.size)))
-
 def print_repository(repo):
 	print('Repo description: {}'.format(repo.description))
-	print('Repo active branch is {}'.format(repo.active_branch)
+	print('Repo active branch is {}'.format(repo.active_branch))
 	for remote in repo.remotes:
 		print('Remote named "{}" with URL "{}"'.format(remote, remote.url))
-		print('Last commit for repo is {}.'.format(str(repo.head.comit.hexsha)))
+		print('Last commit for repo is {}.'.format(str(repo.head.commit.hexsha)))
 

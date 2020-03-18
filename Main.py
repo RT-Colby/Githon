@@ -14,14 +14,17 @@ class Main:
 		assert not bare_repo_is_dirty()
 		repo.untracked_files
 """
+
 if __name__ == "__main__":
     repo_path = os.getenv('GIT_REPO_PATH')
     # Repo object used to programmatically interact with Git repositories
     repo = Repo(repo_path)
+    #print(repo)
     # check that the repository loaded correctly
     if not repo.bare:
         print('Repo at {} successfully loaded.'.format(repo_path))
         print_repository(repo)
+        #print("Remotes " + repo.remotes)
         # create list of commits then print some of them to stdout
         commits = list(repo.iter_commits('master'))[:COMMITS_TO_PRINT]
         for commit in commits:
