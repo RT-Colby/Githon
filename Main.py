@@ -1,8 +1,18 @@
 from git import *
 import os as os
 from read_repo import *
+from tkinter import *
+import sys
+import os
+import webbrowser
+from Initalize_Window import *
 
-if __name__ == "__main__":
+master= Initalize_Window()
+master.start()
+
+
+
+"""if __name__ == "__main__":
 
     repo_path = input('Enter your repo path\n')
     # Repo object used to programmatically interact with Git repositories
@@ -20,5 +30,4 @@ if __name__ == "__main__":
             pass
     else:
         print('Could not load repository at {} :('.format(repo_path))	
-
-#work!
+"""
