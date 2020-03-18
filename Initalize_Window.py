@@ -13,7 +13,7 @@ class Initalize_Window:
         self.root.title('Githon')
         self.root.geometry('500x300')
         self.leftFrame = Frame(self.root, width=200)
-        self.leftFrame.grid()
+        self.leftFrame.grid(row=1,column=0)
         self.Welcomepage = Welcome_Page(self.root,self.leftFrame)
 
 
