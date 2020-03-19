@@ -6,9 +6,9 @@ import sys
 import os
 import webbrowser
 from Initalize_Window import *
+from Welcome_Page import *
 
 master= Initalize_Window()
-master.start()
 
 
 
