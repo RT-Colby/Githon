@@ -57,7 +57,8 @@ def login(self,client,notebook,username,password,signInRoot,access_token = ''):
 			tempSheet = RepoFrame(self.repoNb,self.root,repo,access_token,g)
 		if self.var1.get() == 1:
 			credentials = {'Username':self.ghUsernameEntry.get(),'Password': self.ghPasswordEntry.get(),'Access_Token':self.ghAccessTokenEntry.get()}
-			pickle_out = open('credentials.pickle',"wb")
+			pickleDir = os.path.expanduser('~/.config/Githon/Local/credentials.pickle')
+			pickle_out = open(pickleDir,"wb")
 			pickle.dump(credentials,pickle_out)
 			pickle_out.close
 		self.repoNb.grid(row=0)
