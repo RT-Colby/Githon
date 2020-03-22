@@ -1,10 +1,10 @@
 # Githon
-Githon is
+Githon is a GUI application for any GIT requests. The application is made using python and tkinter. It is currently in early stges of devlopment so any feedback would be much appreciated.
 
 
 
 
-#INSTALLIATION GUIDE 
+***INSTALLIATION GUIDE***
 
 Clone the repository using **https://github.com/RT-Colby/Githon.git**
 
