@@ -1,39 +1,45 @@
 from git import *
 import os as os
-from read_repo import *
 from tkinter import *
 import sys
 import os
 import webbrowser
-from AccessMethods import *
 from functools import *
 import tkinter.ttk as tkrtk
-
+from RepoFrame import *
+import pickle
 
 class Welcome_Page:
 	def __init__(self,root,client):
 		self.root = root
 		self.root.title('Githon Sign in')
 		self.root.geometry('300x150')
-		self.welcome_label = Label(self.root, text='Welcome to Githon, Log in Below!',font=('Rouge',10))
+		self.welcome_label = Label(self.root, text='Sign in to Github!',font=('Rouge',10))
 		self.ghUsernameLabel = Label(self.root,text='Username')
 		self.ghUsernameEntry = Entry(self.root, borderwidth= 2)
 		self.ghPasswordLabel = Label(self.root,text='Password')
 		self.ghPasswordEntry = Entry(self.root, borderwidth= 2)
+		self.ghAccessTokenLabel = Label(self.root,text='Access Token')
+		self.ghAccessTokenEntry = Entry(self.root, borderwidth= 2)
+		self.var1 = IntVar()
+		self.rememberMeCheckButton = Checkbutton(self.root, text="Remember me!", variable=self.var1)
 		self.repoNB = tkrtk.Notebook(client)
-		self.ghLoginButton = Button(self.root, text='Login!', command=lambda: login(self,client,self.repoNB,self.ghUsernameEntry.get(),self.ghPasswordEntry.get(),self.root))
+		self.ghLoginButton = Button(self.root, text='Login!', command=lambda: login(self,client,self.repoNB,self.ghUsernameEntry.get(),self.ghPasswordEntry.get(),self.root,self.ghAccessTokenEntry.get()))
 		#Notebook
 
 		#Grid Assignements
-		self.welcome_label.grid(column=1)
+		self.welcome_label.grid(column=1, sticky='w')
 		self.ghUsernameLabel.grid(row=1)
 		self.ghUsernameEntry.grid(row=1,column=1)
 		self.ghPasswordLabel.grid(row=2)
 		self.ghPasswordEntry.grid(row=2,column=1)
-		self.ghLoginButton.grid(row=3,column=1)
+		self.ghAccessTokenLabel.grid(row=3)
+		self.ghAccessTokenEntry.grid(row=3,column=1)
+		self.ghLoginButton.grid(row=4,column=1)
+		self.rememberMeCheckButton.grid(row=4)
 
-def login(self,root,notebook,username,password,signInRoot):
-	self.root = root
+def login(self,client,notebook,username,password,signInRoot,access_token = ''):
+	self.root = client
 	self.repoNb = notebook
 	self.repoListBox =Listbox(self.root)
 	counter = 0
@@ -46,13 +52,14 @@ def login(self,root,notebook,username,password,signInRoot):
 		return
 	try:
 		self.homeSheet = tkrtk.Frame(self.repoNb)
-		dic['Home'] = self.homeSheet
+		self.repoNb.add(self.homeSheet, text='Home')
 		for repo in g.get_user().get_repos():
-			self.tempSheet = tkrtk.Frame(self.repoNb)
-			dic[repo.name] = self.tempSheet
-			counter += 1
-		for frame in dic:
-			self.repoNb.add(dic[frame], text=frame)
+			tempSheet = RepoFrame(self.repoNb,self.root,repo,access_token,g)
+		if self.var1.get() == 1:
+			credentials = {'Username':self.ghUsernameEntry.get(),'Password': self.ghPasswordEntry.get(),'Access_Token':self.ghAccessTokenEntry.get()}
+			pickle_out = open('credentials.pickle',"wb")
+			pickle.dump(credentials,pickle_out)
+			pickle_out.close
 		self.repoNb.grid(row=0)
 		signInRoot.destroy()
 	except:
