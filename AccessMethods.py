@@ -68,8 +68,21 @@ def commitChanges(self,repoObj,commitMessage,ghAcc,branch ='',access_token=''):
 		repo = git.Repo(repoDir)
 		repo.git.add(repoDir + r'/.')
 		repo.git.commit('-m', commitMessage, author= user.email)
-		return true
+		self.successText = Label(self.frame, text='Commit Success!').grid()
+		self.pushButton = Button(self.frame, text='Push changes', command=lambda: pushChanges(repoObj,self,ghAcc,branch)).grid()
 	else:
 		print('Windows implemntation not done')
+
+def pushChanges(repoObj,self,ghAcc,branch):
+	repoDir = os.path.expanduser('~/Repositories/' + repoObj.name)
+	user = ghAcc.get_user()
+	repo = git.Repo(repoDir)
+	#pushes to a specific branch
+	if branch == '':
+		repo.git.push('origin', 'master')
+	else:
+		repo.git.push('origin', branch)
+
+
 
 

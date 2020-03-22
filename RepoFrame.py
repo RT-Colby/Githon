@@ -21,13 +21,25 @@ class RepoFrame:
 		#Gets Changed Files for commits
 		self.ChangesListBox = Listbox(self.frame,width=50)
 		repoDir = os.path.expanduser('~/Repositories/' + repo.name)
-		pyRepo =git.Repo(repoDir)
+		pyRepo = git.Repo(repoDir)
 		changed_files = pyRepo.git.diff(None,name_only=True)
 		counter = 0
+		branches = repo.get_branches()
+		branch = []
+
+		#Crets a list of each repo branchs
+		self.branchSelection = StringVar(self.frame)
+		for x in branches:
+			branch.append(x.name)
+		self.branchSelection.set(branch[0])
+		self.branchBox=OptionMenu(self.frame,self.branchSelection,*branch)
+
+
 
 		#Grid assignments
 		self.ChangesListBoxLabel.grid(row=0)
 		self.CloneRepoButton.grid(row=1)
+		self.branchBox.grid()
 		self.ChangesListBox.grid()
 		checkRepo_exist(repo,self.CloneRepoButton)
 		notebook.add(self.frame, text=repo.name)
@@ -41,7 +53,7 @@ class RepoFrame:
 			self.commitLabel = Label(self.frame, text='Enter your commit message').grid()
 			self.CommitMessage = Entry(self.frame)
 			self.CommitMessage.grid()
-			self.CommitButton = Button(self.frame, text='Commit Changes',command=lambda: commitChanges(self,repo,self.CommitMessage.get(),ghAcc)).grid()
+			self.CommitButton = Button(self.frame, text='Commit Changes',command=lambda: commitChanges(self,repo,self.CommitMessage.get(),ghAcc,branch=self.branchSelection.get())).grid()
 
 
 
