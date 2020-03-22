@@ -1,10 +1,10 @@
 # Githon
-A git gui client made using tkinter and python. 
+Githon is
 
 
 
 
-***INSTALLIATION GUIDE***
+#INSTALLIATION GUIDE 
 
 Clone the repository using **https://github.com/RT-Colby/Githon.git**
 
