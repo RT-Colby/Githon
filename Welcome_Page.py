@@ -8,6 +8,7 @@ from functools import *
 import tkinter.ttk as tkrtk
 from RepoFrame import *
 import pickle
+from HomeWindow import *
 
 class Welcome_Page:
 	def __init__(self,root,client):
@@ -61,8 +62,7 @@ def login(self,client,username,password,signInRoot,notebook = '',access_token = 
 		messagebox.showerror('Required Field', 'Please enter a valid decryption key')
 		return
 	try:
-		self.homeSheet = tkrtk.Frame(self.repoNb)
-		self.repoNb.add(self.homeSheet, text='Home')
+		self.homeSheet = HomeWindow(g,self.repoNb)
 		for repo in g.get_user().get_repos():
 			tempSheet = RepoFrame(self.repoNb,self.root,repo,access_token,g)
 		if self.var1.get() == 1:
@@ -73,6 +73,6 @@ def login(self,client,username,password,signInRoot,notebook = '',access_token = 
 			pickle_out.close
 		self.repoNb.grid(row=0)
 		signInRoot.destroy()
-	except:
+	except SyntaxError:
 		messagebox.showerror('Required Field', 'Invalid Login! \nPlease enter valid credentials')
 

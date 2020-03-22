@@ -7,6 +7,9 @@ import os
 import webbrowser
 import tkinter.ttk as tkrtk
 from tkinter import messagebox
+import platform
+import pickle
+import git
 
 
 
@@ -58,14 +61,15 @@ def checkRepo_exist(repo,button):
 		print('Windows implemntation not done')
 
 
-def commitChanges(self,repo,commitMessage,ghAcc,branch ='',access_token=''):
+def commitChanges(self,repoObj,commitMessage,ghAcc,branch ='',access_token=''):
 	if sys.platform == 'linux':
-		repoDir = os.path.expanduser('~/Repositories/' + repo.name)
+		repoDir = os.path.expanduser('~/Repositories/' + repoObj.name)
 		user = ghAcc.get_user()
-		pyRepo =git.Repo(repoDir)
-		pyRepo.git.add(repoDir +r'/.')
-		repo.git.commit('-m', commitMessage, author=user.email)
-	else
-	print('Windows implemntation not done')
+		repo = git.Repo(repoDir)
+		repo.git.add(repoDir + r'/.')
+		repo.git.commit('-m', commitMessage, author= user.email)
+		return true
+	else:
+		print('Windows implemntation not done')
 
 

@@ -24,16 +24,24 @@ class RepoFrame:
 		pyRepo =git.Repo(repoDir)
 		changed_files = pyRepo.git.diff(None,name_only=True)
 		counter = 0
-		for f in changed_files.split('\n'):
-			self.ChangesListBox.insert(counter,f)
 
 		#Grid assignments
-		self.frame.grid_columnconfigure(0,minsize=180 )
 		self.ChangesListBoxLabel.grid(row=0)
 		self.CloneRepoButton.grid(row=1)
 		self.ChangesListBox.grid()
 		checkRepo_exist(repo,self.CloneRepoButton)
 		notebook.add(self.frame, text=repo.name)
+
+		#looks for changed files, then adds commit/push buttons
+		if changed_files == '':
+			self.ChangesListBox.insert(0,'No Changes Detected')
+		else:
+			for f in changed_files.split('\n'):
+				self.ChangesListBox.insert(counter,f)
+			self.commitLabel = Label(self.frame, text='Enter your commit message').grid()
+			self.CommitMessage = Entry(self.frame)
+			self.CommitMessage.grid()
+			self.CommitButton = Button(self.frame, text='Commit Changes',command=lambda: commitChanges(self,repo,self.CommitMessage.get(),ghAcc)).grid()
 
 
 
