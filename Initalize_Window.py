@@ -13,7 +13,7 @@ class Initalize_Window:
         self.root = Tk()
         signInPage = Welcome_Page(self.signInRoot,self.root)
         self.root.title('Githon')
-        self.root.geometry('600x500')
+        self.root.geometry('900x500')
         self.leftFrame = Frame(self.root, width=200)
         self.leftFrame.grid(row=1,column=0)
         self.root.mainloop()

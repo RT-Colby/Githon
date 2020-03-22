@@ -24,8 +24,17 @@ class Welcome_Page:
 		self.var1 = IntVar()
 		self.rememberMeCheckButton = Checkbutton(self.root, text="Remember me!", variable=self.var1)
 		self.repoNB = tkrtk.Notebook(client)
-		self.ghLoginButton = Button(self.root, text='Login!', command=lambda: login(self,client,self.repoNB,self.ghUsernameEntry.get(),self.ghPasswordEntry.get(),self.root,self.ghAccessTokenEntry.get()))
-		#Notebook
+		self.ghLoginButton = Button(self.root, text='Login!', command=lambda: login(self,client,self.ghUsernameEntry.get(),self.ghPasswordEntry.get(),self.root,self.repoNB,self.ghAccessTokenEntry.get()))
+
+
+		#Checks if user has credentials stored
+		picCredentials = os.path.expanduser('~/.config/Githon/Local/credentials.pickle')
+		if os.path.exists(picCredentials):
+			credentials = pickle.load(open(picCredentials,"rb"))
+			self.ghUsernameEntry.insert(0, credentials['Username'])
+			self.ghPasswordEntry.insert(0, credentials['Password'])
+			self.ghAccessTokenEntry.insert(0, credentials['Access_Token'])
+			self.rememberMeCheckButton.select()
 
 		#Grid Assignements
 		self.welcome_label.grid(column=1, sticky='w')
@@ -38,13 +47,14 @@ class Welcome_Page:
 		self.ghLoginButton.grid(row=4,column=1)
 		self.rememberMeCheckButton.grid(row=4)
 
-def login(self,client,notebook,username,password,signInRoot,access_token = ''):
+def login(self,client,username,password,signInRoot,notebook = '',access_token = ''):
 	self.root = client
 	self.repoNb = notebook
 	self.repoListBox =Listbox(self.root)
 	counter = 0
 	dic = {}
 	g = Github(username,password)
+
 	try:
 		g.get_user()
 	except:
@@ -56,10 +66,10 @@ def login(self,client,notebook,username,password,signInRoot,access_token = ''):
 		for repo in g.get_user().get_repos():
 			tempSheet = RepoFrame(self.repoNb,self.root,repo,access_token,g)
 		if self.var1.get() == 1:
-			credentials = {'Username':self.ghUsernameEntry.get(),'Password': self.ghPasswordEntry.get(),'Access_Token':self.ghAccessTokenEntry.get()}
+			saveCredentials = {'Username':self.ghUsernameEntry.get(),'Password': self.ghPasswordEntry.get(),'Access_Token':self.ghAccessTokenEntry.get()}
 			pickleDir = os.path.expanduser('~/.config/Githon/Local/credentials.pickle')
 			pickle_out = open(pickleDir,"wb")
-			pickle.dump(credentials,pickle_out)
+			pickle.dump(saveCredentials,pickle_out)
 			pickle_out.close
 		self.repoNb.grid(row=0)
 		signInRoot.destroy()

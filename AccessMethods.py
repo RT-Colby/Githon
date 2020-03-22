@@ -50,9 +50,22 @@ def readRepo(cloneButton,repo,ghAcc,access_token = '',branch=''):
 		print('Windows implemntation not done ')
 
 def checkRepo_exist(repo,button):
-	repoDir = os.path.expanduser('~/Repositories/')
-	if os.path.isdir(repoDir + repo.name) == True:
-		button.grid_forget()
+	if sys.platform == 'linux':
+		repoDir = os.path.expanduser('~/Repositories/')
+		if os.path.isdir(repoDir + repo.name) == True:
+			button.grid_forget()
+	else:
+		print('Windows implemntation not done')
 
+
+def commitChanges(self,repo,commitMessage,ghAcc,branch ='',access_token=''):
+	if sys.platform == 'linux':
+		repoDir = os.path.expanduser('~/Repositories/' + repo.name)
+		user = ghAcc.get_user()
+		pyRepo =git.Repo(repoDir)
+		pyRepo.git.add(repoDir +r'/.')
+		repo.git.commit('-m', commitMessage, author=user.email)
+	else
+	print('Windows implemntation not done')
 
 
