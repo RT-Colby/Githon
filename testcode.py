@@ -8,33 +8,9 @@ import os
 import webbrowser
 import tkinter.ttk as tkrtk
 from tkinter import messagebox
-import platform
+import  platform
 
-def login(self,root,notebook,username,password,signInRoot):
-	self.root = root
-	self.repoNb = notebook
-	self.repoListBox =Listbox(self.root)
-	counter = 0
-	dic = {}
-	g = Github(username,password)
-	try:
-		g.get_user()
-	except:
-		messagebox.showerror('Required Field', 'Please enter a valid decryption key')
-		return
-	try:
-		self.homeSheet = tkrtk.Frame(self.repoNb)
-		dic['Home'] = self.homeSheet
-		for repo in g.get_user().get_repos():
-			self.tempSheet = tkrtk.Frame(self.repoNb)
-			dic[repo.name] = self.tempSheet
-			counter += 1
-		for frame in dic:
-			self.repoNb.add(dic[frame], text=frame)
-		self.repoNb.grid(row=0)
-		signInRoot.destroy()
-	except:
-		messagebox.showerror('Required Field', 'Invalid Login! \nPlease enter valid credentials')
+
 
 def readRepo(reponame,ghAcc,access_token = '',branch=''):
 	g = ghAcc
@@ -62,5 +38,11 @@ def formatUrl(pubUrl,access_token):
     x = splitUrl[0] + r'//' + access_token + ':x-oauth-basic@github.com/' + splitUrl[3] + '/' + splitUrl[4]
     return x
 
+for repo in g.get_user().get_repos():
+    privUrl = formatUrl(repo.clone_url,'2274ba30d60b953b2c826320f5408fd8fc3a4d81')
+    print(privUrl)
 
-
+url = 'https://github.com/ColbyFr/TestForDoc.git'
+access_token = '4f5d27b90c78eb3a6be131b19f8be67cc7e739f4'
+privUrl = formatUrl(url, access_token)
+Repo.clone_from(privUrl,'/home/colby/Repositories/TestForDoc')
