@@ -18,6 +18,8 @@ def print_commit(commit):
 	print("\"{}\" by {} ({})".format(commit.summary,commit.author.name,commit.author.email))
 	print(str(commit.authored_datetime))
 	print(str("Count: {} and size: {}".format(commit.count(),commit.size)))
+
+
 def print_repository(repo):
 	print('Repo description: {}'.format(repo.description))
 	print('Repo active branch is {}'.format(repo.active_branch))
